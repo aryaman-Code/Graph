@@ -1,0 +1,25 @@
+ static int findPar(int x,int par[])
+    {
+        if(x==par[x])
+        return x;
+        return par[x]=findPar(par[x],par);
+    }
+    static void union(int u,int v,int par[],int rank[])
+    {
+        u=findPar(u,par);
+        v=findPar(v,par);
+        if(u==v)
+        return;
+        if(rank[u]>rank[v])
+        {
+            par[v]=u;
+        }
+        else if(rank[u]<rank[v])
+        par[u]=v;
+        else 
+        {
+            par[v]=u;
+            rank[u]++;
+        }
+        
+    }
