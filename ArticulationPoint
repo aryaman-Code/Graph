@@ -1,0 +1,41 @@
+     TreeSet<Integer> ans;int timer;
+    void dfs(int i,int p,int vis[],int tin[],int low[],ArrayList<ArrayList<Integer>> adj)
+     {
+         vis[i]=1;
+         tin[i]=timer;low[i]=timer++;
+         int independent_child=0; 
+         // individual child that means if par is removed childs are disconnected
+         for(int ne:adj.get(i))
+         {
+             if(vis[ne]==0)
+             {
+                 dfs(ne,i,vis,tin,low,adj);
+                 independent_child++;
+                 low[i]=Math.min(low[i],low[ne]);
+                 if(low[ne]>=tin[i]&&p!=-1)
+                   ans.add(i);
+             }
+             else if(ne!=p&&vis[ne]==1) 
+             {
+                  low[i]=Math.min(low[i],low[ne]);
+                 /*no need to check the below condition
+                  if(low[ne]>=tin[i]&&p!=-1)
+                     ans.add(i);*/
+             }
+         }
+           if(p==-1)
+             {
+                 if(independent_child>1)
+                 ans.add(i);
+             }
+     }
+    public void articulationPoints(int V,ArrayList<ArrayList<Integer>> adj)
+    {
+        // Code here
+        int n=V;timer=1;
+        ans=new TreeSet<>();
+        int vis[]=new int[n];
+        int tin[]=new int[n];
+        int low[]=new int[n];
+        dfs(0,-1,vis,tin,low,adj);
+   }
